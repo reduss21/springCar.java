@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-
+   private final String hql = "from User user where user.car.model = :model and user.car.series = :series";
    private final SessionFactory sessionFactory;
 
    public UserDaoImp(SessionFactory sessionFactory) {
@@ -30,7 +30,6 @@ public class UserDaoImp implements UserDao {
    @Override
    @SuppressWarnings("unchecked")
    public User getUserByCar(String model, int series) {
-      String hql = "from User user where user.car.model = :model and user.car.series = :series";
       TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql);
       query.setParameter("model", model).setParameter("series", series);
       return query.setMaxResults(1).getSingleResult();
