@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
-   private final String hql = "from User user where user.car.model = :model and user.car.series = :series";
+   private static final String HQL = "FROM User user WHERE user.car.model = :model AND user.car.series = :series";
    private final SessionFactory sessionFactory;
 
    public UserDaoImp(SessionFactory sessionFactory) {
@@ -16,21 +16,21 @@ public class UserDaoImp implements UserDao {
    }
 
    @Override
-   public void add(User user) {
+   public void addUser (User user) {
       sessionFactory.getCurrentSession().save(user);
    }
 
    @Override
    @SuppressWarnings("unchecked")
    public List<User> listUsers() {
-      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
+      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("FROM User");
       return query.getResultList();
    }
 
    @Override
    @SuppressWarnings("unchecked")
    public User getUserByCar(String model, int series) {
-      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql);
+      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(HQL);
       query.setParameter("model", model).setParameter("series", series);
       return query.setMaxResults(1).getSingleResult();
    }
